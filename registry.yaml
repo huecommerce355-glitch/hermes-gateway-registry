@@ -46,7 +46,7 @@ registry:
       boundaries:
         delegated_to: [coding-agent-gateway, github-development-gateway]
     - name: chatgpt-strategy-gateway
-      version: 1.2.0
+      version: 1.3.0
       lifecycle: stable
       layer: strategy
       domain: strategy
@@ -58,6 +58,21 @@ registry:
       owner: {team: strategy, maintainer: hudongyao}
       boundaries:
         delegated_to: [coding-agent-gateway, github-development-gateway, obsidian-knowledge-gateway]
+    - name: chatgpt-production-bridge
+      version: 1.0.0
+      lifecycle: experimental
+      layer: strategy
+      domain: bridge
+      protocol: {name: HACP, version: "1.0"}
+      message_prefix: bridge.
+      error_prefix: BRIDGE-ERR-
+      operations: [bridge.transport]
+      capabilities: [http-transport, api-key-auth, scope-authz, audit-log, strategy-boundary]
+      boundaries: ["transport only, no business logic", "strategy.* only", "no execution capability"]
+      health:
+        probe_cmd: "python3 -c \"print('production bridge registry entry present')\""
+      probe_cmd: "python3 -c \"print('production bridge registry entry present')\""
+      owner: {team: strategy, maintainer: hudongyao}
     - name: aiwp-pipeline
       version: 1.2.0
       lifecycle: stable
@@ -127,3 +142,14 @@ registry:
             - "parallel-pipeline: max_parallel=2, per-instance trace_id isolation, knowledge write lock"
             - "http-transport: OpenAPI + API Key auth, strategy.* boundary"
             - "metadata-filtering: tag/status/project search filters"
+      - manifest: "m1.0-a-active"
+        date: "2026-08-08"
+        status: "active"
+        components:
+          - {name: chatgpt-strategy-gateway, version: "1.3.0", tag: "v1.3.0"}
+          - {name: chatgpt-production-bridge, version: "1.0.0", tag: "v1.0.0"}
+          - {name: obsidian-knowledge-gateway, version: "1.2.0", tag: "v1.2.0"}
+          - {name: aiwp-pipeline, version: "1.2.0", tag: "v1.2.0"}
+          - {name: coding-agent-gateway, version: "1.1.0", tag: "v1.1.0"}
+          - {name: github-development-gateway, version: "1.2.0", tag: "v1.2.0"}
+        records: {adr_status: "7 ADRs (1-6 accepted, 7 proposed)", capability: "chatgpt-production-bridge"}

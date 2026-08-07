@@ -39,7 +39,7 @@ def test_release_component_tags_are_complete():
 
 def test_release_history_contains_active_m02_manifest():
     history = {entry["manifest"]: entry for entry in release()["release_history"]}
-    assert len(history) == 4
+    assert len(history) == 5
     assert history["m0.1-release-freeze"]["status"] == "frozen"
 
     active = history["m0.2-active"]
@@ -98,3 +98,28 @@ def test_release_history_contains_m02_release_freeze_manifest():
     assert records["adr_status"] == "all accepted"
     assert "trace-context:" in "\n".join(records["capabilities"])
     assert "parallel-pipeline:" in "\n".join(records["capabilities"])
+
+
+def test_release_history_contains_m10_a_active_manifest():
+    history = {entry["manifest"]: entry for entry in release()["release_history"]}
+    active = history["m1.0-a-active"]
+
+    assert active["date"] == "2026-08-08"
+    assert active["status"] == "active"
+    expected_components = {
+        "chatgpt-strategy-gateway": ("1.3.0", "v1.3.0"),
+        "chatgpt-production-bridge": ("1.0.0", "v1.0.0"),
+        "obsidian-knowledge-gateway": ("1.2.0", "v1.2.0"),
+        "aiwp-pipeline": ("1.2.0", "v1.2.0"),
+        "coding-agent-gateway": ("1.1.0", "v1.1.0"),
+        "github-development-gateway": ("1.2.0", "v1.2.0"),
+    }
+    components = {component["name"]: component for component in active["components"]}
+    assert {
+        name: (component["version"], component["tag"])
+        for name, component in components.items()
+    } == expected_components
+    assert active["records"] == {
+        "adr_status": "7 ADRs (1-6 accepted, 7 proposed)",
+        "capability": "chatgpt-production-bridge",
+    }

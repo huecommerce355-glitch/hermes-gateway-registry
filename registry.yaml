@@ -104,3 +104,23 @@ registry:
           - {name: obsidian-knowledge-gateway, version: "1.2.0", tag: "v1.2.0"}
           - {name: chatgpt-strategy-gateway, version: "1.2.0", tag: "v1.2.0"}
           - {name: aiwp-pipeline, version: "1.2.0", tag: "v1.2.0"}
+      - manifest: "m0.2-release-freeze"
+        date: "2026-08-08"
+        status: "frozen"
+        components:
+          - {name: chatgpt-strategy-gateway, version: "1.2.0", tag: "v1.2.0"}
+          - {name: obsidian-knowledge-gateway, version: "1.2.0", tag: "v1.2.0"}
+          - {name: aiwp-pipeline, version: "1.2.0", tag: "v1.2.0"}
+          - {name: coding-agent-gateway, version: "1.1.0", tag: "v1.1.0"}
+          - {name: github-development-gateway, version: "1.2.0", tag: "v1.2.0"}
+        records:
+          adrs_accepted: ["ADR-001", "ADR-002", "ADR-003", "ADR-004", "ADR-005", "ADR-006"]
+          adr_status: "all accepted"
+          milestones:
+            - "m0.2-a: HTTP transport + metadata filtering + parallel pipeline (v1.1.0)"
+            - "m0.2-b: trace context continuity (v1.2.0)"
+          capabilities:
+            - "trace-context: strategy request_id/trace_id -> pipeline -> knowledge frontmatter/index"
+            - "parallel-pipeline: max_parallel=2, per-instance trace_id isolation, knowledge write lock"
+            - "http-transport: OpenAPI + API Key auth, strategy.* boundary"
+            - "metadata-filtering: tag/status/project search filters"

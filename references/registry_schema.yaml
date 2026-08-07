@@ -1,0 +1,26 @@
+type: object
+required: [registry]
+properties:
+  registry:
+    type: object
+    required: [name, version, protocol, gateways]
+    properties:
+      protocol:
+        type: object
+        required: [name, version]
+        properties: {name: {type: string}, version: {type: string}}
+      gateways:
+        type: array
+        items:
+          type: object
+          required: [name, version, lifecycle, domain, protocol, message_prefix, error_prefix, operations, probe_cmd, owner, boundaries]
+          properties:
+            lifecycle: {type: string, enum: [experimental, beta, stable, deprecated, retired]}
+            protocol: {type: object, required: [name, version]}
+            owner: {type: object, required: [team, maintainer], non_empty: true}
+            boundaries: {type: object, required: [delegated_to]}
+            probe_cmd: {type: string}
+# probe_cmd must be the gateway's own read-only health probe (for example,
+# health_check.py or an existence check). Do not use an input validator or any
+# command that returns non-zero because its input is invalid. It must not modify
+# files or perform remote writes.

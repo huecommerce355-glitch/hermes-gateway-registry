@@ -33,3 +33,19 @@ def test_release_contains_expected_components_and_versions():
 def test_release_component_tags_are_complete():
     for component in release()["components"]:
         assert component["tag"].startswith("v")
+
+
+def test_release_history_contains_active_m02_manifest():
+    history = {entry["manifest"]: entry for entry in release()["release_history"]}
+    assert history["m0.1-release-freeze"]["status"] == "frozen"
+
+    active = history["m0.2-active"]
+    assert active["date"] == "2026-08-07"
+    assert active["status"] == "active"
+    components = {component["name"]: component for component in active["components"]}
+    expected_versions = {
+        "obsidian-knowledge-gateway": "1.1.0",
+        "chatgpt-strategy-gateway": "1.1.0",
+        "aiwp-pipeline": "1.1.0",
+    }
+    assert {name: components[name]["version"] for name in expected_versions} == expected_versions

@@ -31,7 +31,7 @@ registry:
       boundaries:
         delegated_to: [coding-agent-gateway, obsidian-knowledge-gateway]
     - name: obsidian-knowledge-gateway
-      version: 1.1.0
+      version: 1.2.0
       lifecycle: stable
       domain: knowledge
       protocol: {name: HACP, version: "1.0"}
@@ -43,7 +43,7 @@ registry:
       boundaries:
         delegated_to: [coding-agent-gateway, github-development-gateway]
     - name: chatgpt-strategy-gateway
-      version: 1.1.0
+      version: 1.2.0
       lifecycle: stable
       layer: strategy
       domain: strategy
@@ -56,7 +56,7 @@ registry:
       boundaries:
         delegated_to: [coding-agent-gateway, github-development-gateway, obsidian-knowledge-gateway]
     - name: aiwp-pipeline
-      version: 1.1.0
+      version: 1.2.0
       lifecycle: stable
       layer: management
       domain: pipeline
@@ -95,3 +95,12 @@ registry:
           - {name: obsidian-knowledge-gateway, version: "1.1.0", tag: "v1.1.0"}
           - {name: chatgpt-strategy-gateway, version: "1.1.0", tag: "v1.1.0"}
           - {name: aiwp-pipeline, version: "1.1.0", tag: "v1.1.0"}
+      - manifest: "m0.2-b-active"
+        date: "2026-08-08"
+        status: "active"
+        components:
+          - {name: coding-agent-gateway, version: "1.1.0", tag: "v1.1.0"}
+          - {name: github-development-gateway, version: "1.2.0", tag: "v1.2.0"}
+          - {name: obsidian-knowledge-gateway, version: "1.2.0", tag: "v1.2.0"}
+          - {name: chatgpt-strategy-gateway, version: "1.2.0", tag: "v1.2.0"}
+          - {name: aiwp-pipeline, version: "1.2.0", tag: "v1.2.0"}

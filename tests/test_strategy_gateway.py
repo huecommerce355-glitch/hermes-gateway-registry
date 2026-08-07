@@ -48,7 +48,7 @@ def test_discovery_by_strategy_domain():
     assert candidates == [
         {
             "name": "chatgpt-strategy-gateway",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "domain": "strategy",
             "lifecycle": "stable",
             "health": "not_checked",

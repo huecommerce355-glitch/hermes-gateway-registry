@@ -1,0 +1,44 @@
+registry:
+  name: hermes-gateway-registry
+  version: 1.0.0
+  protocol:
+    name: HACP
+    version: "1.0"
+  gateways:
+    - name: coding-agent-gateway
+      version: 1.0.0
+      lifecycle: stable
+      domain: coding
+      protocol: {name: HACP, version: "1.0"}
+      message_prefix: cag.
+      error_prefix: ERR-CAG-
+      operations: [codex.exec, codex.review, codex.test, codex.commit, cursor.review, cursor.refactor, cursor.arch, agent.health]
+      managed_agents: [codex, cursor]
+      probe_cmd: "python3 /Users/hudongyao/.hermes/skills/coding-agent-gateway/scripts/health_check.py"
+      owner: {team: infrastructure, maintainer: hudongyao}
+      boundaries:
+        delegated_to: [github-development-gateway, obsidian-knowledge-gateway]
+    - name: github-development-gateway
+      version: 1.2.0
+      lifecycle: stable
+      domain: github-lifecycle
+      protocol: {name: HACP, version: "1.0"}
+      message_prefix: gh.
+      error_prefix: ERR-GW-
+      operations: [auth, repo, issue, branch, pr, actions, release, label.bootstrap, pr_resilience, provider_health]
+      probe_cmd: "gh auth status"
+      owner: {team: infrastructure, maintainer: hudongyao}
+      boundaries:
+        delegated_to: [coding-agent-gateway, obsidian-knowledge-gateway]
+    - name: obsidian-knowledge-gateway
+      version: 1.0.0
+      lifecycle: stable
+      domain: knowledge
+      protocol: {name: HACP, version: "1.0"}
+      message_prefix: kng.
+      error_prefix: ERR-KNG-
+      operations: [knowledge.write, knowledge.read, knowledge.search, knowledge.index]
+      probe_cmd: "python3 -c \"import os; print('vault exists:', os.path.isdir(os.path.expanduser('~/Documents/Obsidian Vault')))\""
+      owner: {team: infrastructure, maintainer: hudongyao}
+      boundaries:
+        delegated_to: [coding-agent-gateway, github-development-gateway]

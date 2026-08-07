@@ -60,3 +60,38 @@ def test_release_history_contains_active_m02_manifest():
         "aiwp-pipeline": "1.2.0",
     }
     assert {name: components[name]["version"] for name in expected_versions} == expected_versions
+
+
+def test_release_history_contains_m02_release_freeze_manifest():
+    history = {entry["manifest"]: entry for entry in release()["release_history"]}
+    freeze = history["m0.2-release-freeze"]
+
+    assert freeze["date"] == "2026-08-08"
+    assert freeze["status"] == "frozen"
+    expected_versions = {
+        "chatgpt-strategy-gateway": ("1.2.0", "v1.2.0"),
+        "obsidian-knowledge-gateway": ("1.2.0", "v1.2.0"),
+        "aiwp-pipeline": ("1.2.0", "v1.2.0"),
+        "coding-agent-gateway": ("1.1.0", "v1.1.0"),
+        "github-development-gateway": ("1.2.0", "v1.2.0"),
+    }
+    components = {component["name"]: component for component in freeze["components"]}
+    assert set(components) == set(expected_versions)
+    assert {
+        name: (component["version"], component["tag"])
+        for name, component in components.items()
+    } == expected_versions
+
+    records = freeze["records"]
+    assert len(records["adrs_accepted"]) == 6
+    assert set(records["adrs_accepted"]) == {
+        "ADR-001",
+        "ADR-002",
+        "ADR-003",
+        "ADR-004",
+        "ADR-005",
+        "ADR-006",
+    }
+    assert records["adr_status"] == "all accepted"
+    assert "trace-context:" in "\n".join(records["capabilities"])
+    assert "parallel-pipeline:" in "\n".join(records["capabilities"])

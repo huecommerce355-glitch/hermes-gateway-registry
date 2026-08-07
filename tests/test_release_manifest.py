@@ -49,3 +49,14 @@ def test_release_history_contains_active_m02_manifest():
         "aiwp-pipeline": "1.1.0",
     }
     assert {name: components[name]["version"] for name in expected_versions} == expected_versions
+
+    active_b = history["m0.2-b-active"]
+    assert active_b["date"] == "2026-08-08"
+    assert active_b["status"] == "active"
+    components = {component["name"]: component for component in active_b["components"]}
+    expected_versions = {
+        "obsidian-knowledge-gateway": "1.2.0",
+        "chatgpt-strategy-gateway": "1.2.0",
+        "aiwp-pipeline": "1.2.0",
+    }
+    assert {name: components[name]["version"] for name in expected_versions} == expected_versions

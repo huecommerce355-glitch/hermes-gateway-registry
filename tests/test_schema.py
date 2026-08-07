@@ -28,3 +28,9 @@ def test_invalid_lifecycle_rejected(tmp_path):
 def test_prefix_collision_rejected(tmp_path):
     data = base(); data["registry"]["gateways"][1]["message_prefix"] = data["registry"]["gateways"][0]["message_prefix"]
     assert run(data, tmp_path).returncode != 0
+
+def test_all_gateway_entries_require_layer():
+    allowed_layers = {"strategy", "management", "infrastructure"}
+    gateways = base()["registry"]["gateways"]
+
+    assert all(gateway.get("layer") in allowed_layers for gateway in gateways)

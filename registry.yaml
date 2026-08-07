@@ -8,6 +8,7 @@ registry:
     - name: coding-agent-gateway
       version: 1.1.0
       lifecycle: stable
+      layer: infrastructure
       domain: coding
       protocol: {name: HACP, version: "1.0"}
       message_prefix: cag.
@@ -21,6 +22,7 @@ registry:
     - name: github-development-gateway
       version: 1.2.0
       lifecycle: stable
+      layer: infrastructure
       domain: github-lifecycle
       protocol: {name: HACP, version: "1.0"}
       message_prefix: gh.
@@ -33,6 +35,7 @@ registry:
     - name: obsidian-knowledge-gateway
       version: 1.2.0
       lifecycle: stable
+      layer: infrastructure
       domain: knowledge
       protocol: {name: HACP, version: "1.0"}
       message_prefix: kng.
@@ -69,15 +72,15 @@ registry:
       boundaries:
         delegated_to: [chatgpt-strategy-gateway, coding-agent-gateway, github-development-gateway, obsidian-knowledge-gateway]
   release:
-    manifest: "m0.1-release-freeze"
-    date: "2026-08-07"
+    manifest: "m0.2-release-freeze"
+    date: "2026-08-08"
     status: "frozen"
     components:
-      - {name: coding-agent-gateway, version: "1.1.0", tag: "v1.1.0", repo: "huecommerce355-glitch/coding-agent-gateway", tag_sha: "8b0ff9ba"}
-      - {name: github-development-gateway, version: "1.2.0", tag: "v1.2.0", repo: "huecommerce355-glitch/github-development-gateway", tag_sha: "1867be57", note: "published 2026-08-07, PR #1 squash merge"}
-      - {name: obsidian-knowledge-gateway, version: "1.0.0", tag: "v1.0.0", repo: "huecommerce355-glitch/obsidian-knowledge-gateway", tag_sha: "a3e920b4"}
-      - {name: chatgpt-strategy-gateway, version: "1.0.0", tag: "v1.0.0", repo: "huecommerce355-glitch/chatgpt-strategy-gateway", tag_sha: "6b0cdca1"}
-      - {name: aiwp-pipeline, version: "1.0.0", tag: "v1.0.0", repo: "huecommerce355-glitch/aiwp-pipeline", tag_sha: "bea9d8bf"}
+      - {name: chatgpt-strategy-gateway, version: "1.2.0", tag: "v1.2.0"}
+      - {name: obsidian-knowledge-gateway, version: "1.2.0", tag: "v1.2.0"}
+      - {name: aiwp-pipeline, version: "1.2.0", tag: "v1.2.0"}
+      - {name: coding-agent-gateway, version: "1.1.0", tag: "v1.1.0"}
+      - {name: github-development-gateway, version: "1.2.0", tag: "v1.2.0"}
     freeze_conditions:
       - "components tagged with git tags"
       - "registry schema validated"

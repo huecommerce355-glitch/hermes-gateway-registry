@@ -10,10 +10,12 @@ def release():
     return yaml.safe_load((ROOT / "registry.yaml").read_text())["registry"]["release"]
 
 
-def test_release_manifest_is_frozen():
+def test_current_manifest_points_to_latest_frozen():
     manifest = release()
-    assert manifest["manifest"] == "m0.1-release-freeze"
+    assert manifest["manifest"] == "m0.2-release-freeze"
     assert manifest["status"] == "frozen"
+    history = {entry["manifest"]: entry for entry in manifest["release_history"]}
+    assert history[manifest["manifest"]]["status"] == "frozen"
 
 
 def test_release_contains_expected_components_and_versions():
@@ -21,9 +23,9 @@ def test_release_contains_expected_components_and_versions():
     expected_versions = {
         "coding-agent-gateway": "1.1.0",
         "github-development-gateway": "1.2.0",
-        "obsidian-knowledge-gateway": "1.0.0",
-        "chatgpt-strategy-gateway": "1.0.0",
-        "aiwp-pipeline": "1.0.0",
+        "obsidian-knowledge-gateway": "1.2.0",
+        "chatgpt-strategy-gateway": "1.2.0",
+        "aiwp-pipeline": "1.2.0",
     }
     assert len(components) == len(expected_versions)
     assert set(components) == set(expected_versions)
@@ -37,6 +39,7 @@ def test_release_component_tags_are_complete():
 
 def test_release_history_contains_active_m02_manifest():
     history = {entry["manifest"]: entry for entry in release()["release_history"]}
+    assert len(history) == 4
     assert history["m0.1-release-freeze"]["status"] == "frozen"
 
     active = history["m0.2-active"]

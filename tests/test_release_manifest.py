@@ -32,5 +32,4 @@ def test_release_contains_expected_components_and_versions():
 
 def test_release_component_tags_are_complete():
     for component in release()["components"]:
-        if component["name"] != "github-development-gateway":
-            assert component["tag"].startswith("v")
+        assert component["tag"].startswith("v")

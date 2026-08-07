@@ -74,7 +74,7 @@ registry:
     status: "frozen"
     components:
       - {name: coding-agent-gateway, version: "1.1.0", tag: "v1.1.0", repo: "huecommerce355-glitch/coding-agent-gateway", tag_sha: "8b0ff9ba"}
-      - {name: github-development-gateway, version: "1.2.0", tag: "local", repo: "local-git-init-only", note: "not published to GitHub yet; local git only"}
+      - {name: github-development-gateway, version: "1.2.0", tag: "v1.2.0", repo: "huecommerce355-glitch/github-development-gateway", tag_sha: "1867be57", note: "published 2026-08-07, PR #1 squash merge"}
       - {name: obsidian-knowledge-gateway, version: "1.0.0", tag: "v1.0.0", repo: "huecommerce355-glitch/obsidian-knowledge-gateway", tag_sha: "a3e920b4"}
       - {name: chatgpt-strategy-gateway, version: "1.0.0", tag: "v1.0.0", repo: "huecommerce355-glitch/chatgpt-strategy-gateway", tag_sha: "6b0cdca1"}
       - {name: aiwp-pipeline, version: "1.0.0", tag: "v1.0.0", repo: "huecommerce355-glitch/aiwp-pipeline", tag_sha: "bea9d8bf"}

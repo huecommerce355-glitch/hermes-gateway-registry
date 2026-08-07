@@ -4,6 +4,7 @@ from pathlib import Path
 from normalize_protocol import parse_protocol
 
 LIFECYCLES = {"experimental", "beta", "stable", "deprecated", "retired"}
+LAYERS = {"strategy", "orchestration", "management", "infrastructure"}
 DANGEROUS = ["git push", "git commit", "git add", "gh pr", "gh api --method post", "gh api --method put", "gh api --method delete", "write ", "rm -rf"]
 
 def load(path):
@@ -30,6 +31,7 @@ def validate(data):
         if gateway.get("name") in names: errors.append(f"ERR-REG-001: duplicate name {gateway.get('name')}")
         names.add(gateway.get("name"))
         if gateway.get("lifecycle") not in LIFECYCLES: errors.append(f"ERR-REG-001: {label} invalid lifecycle")
+        if "layer" in gateway and gateway["layer"] not in LAYERS: errors.append(f"ERR-REG-001: {label} invalid layer")
         try:
             protocol = parse_protocol(gateway.get("protocol"))
             if protocol["name"].lower() != "hacp": errors.append(f"ERR-REG-001: {label} protocol name must be HACP")

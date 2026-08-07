@@ -16,6 +16,7 @@ properties:
           required: [name, version, lifecycle, domain, protocol, message_prefix, error_prefix, operations, probe_cmd, owner, boundaries]
           properties:
             lifecycle: {type: string, enum: [experimental, beta, stable, deprecated, retired]}
+            layer: {type: string, enum: [strategy, orchestration, management, infrastructure], default: infrastructure}
             protocol: {type: object, required: [name, version]}
             owner: {type: object, required: [team, maintainer], non_empty: true}
             boundaries: {type: object, required: [delegated_to]}

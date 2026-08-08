@@ -12,7 +12,7 @@ def release():
 
 def test_current_manifest_points_to_latest_frozen():
     manifest = release()
-    assert manifest["manifest"] == "m0.2-release-freeze"
+    assert manifest["manifest"] == "m1.0-a-freeze"
     assert manifest["status"] == "frozen"
     history = {entry["manifest"]: entry for entry in manifest["release_history"]}
     assert history[manifest["manifest"]]["status"] == "frozen"
@@ -21,10 +21,11 @@ def test_current_manifest_points_to_latest_frozen():
 def test_release_contains_expected_components_and_versions():
     components = {component["name"]: component for component in release()["components"]}
     expected_versions = {
-        "coding-agent-gateway": "1.1.0",
+        "chatgpt-production-bridge": "1.1.0",
+        "coding-agent-gateway": "1.2.0",
         "github-development-gateway": "1.2.0",
         "obsidian-knowledge-gateway": "1.2.0",
-        "chatgpt-strategy-gateway": "1.2.0",
+        "chatgpt-strategy-gateway": "1.3.1",
         "aiwp-pipeline": "1.2.0",
     }
     assert len(components) == len(expected_versions)
@@ -39,7 +40,7 @@ def test_release_component_tags_are_complete():
 
 def test_release_history_contains_active_m02_manifest():
     history = {entry["manifest"]: entry for entry in release()["release_history"]}
-    assert len(history) == 5
+    assert len(history) == 6
     assert history["m0.1-release-freeze"]["status"] == "frozen"
 
     active = history["m0.2-active"]
@@ -123,3 +124,32 @@ def test_release_history_contains_m10_a_active_manifest():
         "adr_status": "7 ADRs (1-6 accepted, 7 proposed)",
         "capability": "chatgpt-production-bridge",
     }
+
+
+def test_release_history_contains_m10_a_freeze_manifest():
+    history = {entry["manifest"]: entry for entry in release()["release_history"]}
+    freeze = history["m1.0-a-freeze"]
+
+    assert freeze["date"] == "2026-08-08"
+    assert freeze["status"] == "frozen"
+    expected_components = {
+        "chatgpt-production-bridge": ("1.1.0", "v1.1.0"),
+        "chatgpt-strategy-gateway": ("1.3.1", "v1.3.1"),
+        "obsidian-knowledge-gateway": ("1.2.0", "v1.2.0"),
+        "aiwp-pipeline": ("1.2.0", "v1.2.0"),
+        "coding-agent-gateway": ("1.2.0", "v1.2.0"),
+        "github-development-gateway": ("1.2.0", "v1.2.0"),
+    }
+    components = {component["name"]: component for component in freeze["components"]}
+    assert len(components) == 6
+    assert {
+        name: (component["version"], component["tag"])
+        for name, component in components.items()
+    } == expected_components
+    assert freeze["records"]["adrs_accepted"] == [
+        f"ADR-{index:03d}" for index in range(1, 9)
+    ]
+    assert any(
+        capability.startswith("dual-agent-production-policy:")
+        for capability in freeze["records"]["capabilities"]
+    )

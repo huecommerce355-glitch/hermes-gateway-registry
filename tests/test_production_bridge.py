@@ -28,7 +28,7 @@ def test_production_bridge_entry_schema_valid():
     assert bridge["error_prefix"] == "BRIDGE-ERR-"
     assert bridge["owner"] == {"team": "strategy", "maintainer": "hudongyao"}
     assert bridge["protocol"] == {"name": "HACP", "version": "1.0"}
-    assert bridge["lifecycle"] == "experimental"
+    assert bridge["lifecycle"] == "stable"
     assert bridge["capabilities"] == [
         "http-transport",
         "api-key-auth",
@@ -47,7 +47,7 @@ def test_discovery_by_bridge_domain():
             "name": "chatgpt-production-bridge",
             "version": "1.1.0",
             "domain": "bridge",
-            "lifecycle": "experimental",
+            "lifecycle": "stable",
             "health": "not_checked",
             "eligible_for_new_tasks": True,
         }

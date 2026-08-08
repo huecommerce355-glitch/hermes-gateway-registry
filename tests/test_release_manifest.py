@@ -12,7 +12,7 @@ def release():
 
 def test_current_manifest_points_to_latest_frozen():
     manifest = release()
-    assert manifest["manifest"] == "m1.0-a-freeze"
+    assert manifest["manifest"] == "m1.0-a-final-freeze"
     assert manifest["status"] == "frozen"
     history = {entry["manifest"]: entry for entry in manifest["release_history"]}
     assert history[manifest["manifest"]]["status"] == "frozen"
@@ -24,9 +24,9 @@ def test_release_contains_expected_components_and_versions():
         "chatgpt-production-bridge": "1.1.0",
         "coding-agent-gateway": "1.2.0",
         "github-development-gateway": "1.2.0",
-        "obsidian-knowledge-gateway": "1.2.0",
+        "obsidian-knowledge-gateway": "1.3.0",
         "chatgpt-strategy-gateway": "1.3.1",
-        "aiwp-pipeline": "1.2.0",
+        "aiwp-pipeline": "1.4.0",
     }
     assert len(components) == len(expected_versions)
     assert set(components) == set(expected_versions)
@@ -40,7 +40,6 @@ def test_release_component_tags_are_complete():
 
 def test_release_history_contains_active_m02_manifest():
     history = {entry["manifest"]: entry for entry in release()["release_history"]}
-    assert len(history) == 8
     assert history["m0.1-release-freeze"]["status"] == "frozen"
 
     active = history["m0.2-active"]

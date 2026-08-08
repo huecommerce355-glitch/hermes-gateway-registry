@@ -40,7 +40,7 @@ registry:
       boundaries:
         delegated_to: [coding-agent-gateway, obsidian-knowledge-gateway]
     - name: obsidian-knowledge-gateway
-      version: 1.2.0
+      version: 1.3.0
       lifecycle: stable
       layer: infrastructure
       domain: knowledge
@@ -190,3 +190,14 @@ registry:
           - {name: coding-agent-gateway, version: "1.2.0", tag: "v1.2.0"}
           - {name: github-development-gateway, version: "1.2.0", tag: "v1.2.0"}
         records: {capability: "review-engine: S7 review + S7b rework, quality gate, mock review agent (ADR-009 proposed)", adr_status: "9 ADRs (1-8 accepted, 9 proposed)"}
+      - manifest: "m1.0-a-knowledge-v13-active"
+        date: "2026-08-08"
+        status: "active"
+        components:
+          - {name: chatgpt-production-bridge, version: "1.1.0", tag: "v1.1.0"}
+          - {name: chatgpt-strategy-gateway, version: "1.3.1", tag: "v1.3.1"}
+          - {name: obsidian-knowledge-gateway, version: "1.3.0", tag: "v1.3.0"}
+          - {name: aiwp-pipeline, version: "1.4.0", tag: "v1.4.0"}
+          - {name: coding-agent-gateway, version: "1.2.0", tag: "v1.2.0"}
+          - {name: github-development-gateway, version: "1.2.0", tag: "v1.2.0"}
+        records: {capability: "review-knowledge: review-result doc type in AI-Vault/Reviews/, trace_id association, agent/decision filters (ADR-009 accepted)", adr_status: "9 ADRs all accepted"}

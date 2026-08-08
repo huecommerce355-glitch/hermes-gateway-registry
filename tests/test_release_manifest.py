@@ -40,7 +40,7 @@ def test_release_component_tags_are_complete():
 
 def test_release_history_contains_active_m02_manifest():
     history = {entry["manifest"]: entry for entry in release()["release_history"]}
-    assert len(history) == 7
+    assert len(history) == 8
     assert history["m0.1-release-freeze"]["status"] == "frozen"
 
     active = history["m0.2-active"]
@@ -177,4 +177,29 @@ def test_release_history_contains_m10_a_review_active_manifest():
     assert active["records"] == {
         "capability": "review-engine: S7 review + S7b rework, quality gate, mock review agent (ADR-009 proposed)",
         "adr_status": "9 ADRs (1-8 accepted, 9 proposed)",
+    }
+
+
+def test_release_history_contains_m10_a_knowledge_v13_active_manifest():
+    history = {entry["manifest"]: entry for entry in release()["release_history"]}
+    active = history["m1.0-a-knowledge-v13-active"]
+
+    assert active["date"] == "2026-08-08"
+    assert active["status"] == "active"
+    expected_components = {
+        "chatgpt-production-bridge": ("1.1.0", "v1.1.0"),
+        "chatgpt-strategy-gateway": ("1.3.1", "v1.3.1"),
+        "obsidian-knowledge-gateway": ("1.3.0", "v1.3.0"),
+        "aiwp-pipeline": ("1.4.0", "v1.4.0"),
+        "coding-agent-gateway": ("1.2.0", "v1.2.0"),
+        "github-development-gateway": ("1.2.0", "v1.2.0"),
+    }
+    components = {component["name"]: component for component in active["components"]}
+    assert {
+        name: (component["version"], component["tag"])
+        for name, component in components.items()
+    } == expected_components
+    assert active["records"] == {
+        "capability": "review-knowledge: review-result doc type in AI-Vault/Reviews/, trace_id association, agent/decision filters (ADR-009 accepted)",
+        "adr_status": "9 ADRs all accepted",
     }

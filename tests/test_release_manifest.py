@@ -107,7 +107,7 @@ def test_release_history_contains_m10_a_active_manifest():
     assert active["date"] == "2026-08-08"
     assert active["status"] == "active"
     expected_components = {
-        "chatgpt-strategy-gateway": ("1.3.0", "v1.3.0"),
+        "chatgpt-strategy-gateway": ("1.3.1", "v1.3.1"),
         "chatgpt-production-bridge": ("1.1.0", "v1.1.0"),
         "obsidian-knowledge-gateway": ("1.2.0", "v1.2.0"),
         "aiwp-pipeline": ("1.2.0", "v1.2.0"),

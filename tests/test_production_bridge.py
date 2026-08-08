@@ -21,7 +21,7 @@ def test_production_bridge_entry_schema_valid():
         if gateway["name"] == "chatgpt-production-bridge"
     )
 
-    assert bridge["version"] == "1.0.1"
+    assert bridge["version"] == "1.1.0"
     assert bridge["layer"] == "strategy"
     assert bridge["domain"] == "bridge"
     assert bridge["message_prefix"] == "bridge."
@@ -45,7 +45,7 @@ def test_discovery_by_bridge_domain():
     assert candidates == [
         {
             "name": "chatgpt-production-bridge",
-            "version": "1.0.1",
+            "version": "1.1.0",
             "domain": "bridge",
             "lifecycle": "experimental",
             "health": "not_checked",

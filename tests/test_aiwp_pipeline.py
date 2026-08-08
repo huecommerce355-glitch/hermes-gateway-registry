@@ -45,7 +45,7 @@ def test_discovery_by_pipeline_domain():
     assert candidates == [
         {
             "name": "aiwp-pipeline",
-            "version": "1.2.0",
+            "version": "1.4.0",
             "domain": "pipeline",
             "lifecycle": "stable",
             "health": "not_checked",

@@ -81,14 +81,14 @@ registry:
       probe_cmd: "python3 -c \"print('production bridge registry entry present')\""
       owner: {team: strategy, maintainer: hudongyao}
     - name: aiwp-pipeline
-      version: 1.2.0
+      version: 1.4.0
       lifecycle: stable
       layer: management
       domain: pipeline
       protocol: {name: HACP, version: "1.0"}
       message_prefix: pipeline.
       error_prefix: ERR-PIPE-
-      operations: [pipeline.run, pipeline.manifest.load, pipeline.stage.execute]
+      operations: [pipeline.run, pipeline.manifest.load, pipeline.stage.execute, pipeline.review]
       probe_cmd: "python3 -c \"import os; print('pipeline dir exists:', os.path.isdir(os.path.expanduser('~/.hermes/skills/aiwp-pipeline')))\""
       owner: {team: platform, maintainer: hudongyao}
       boundaries:
@@ -179,3 +179,14 @@ registry:
             - "adr-lifecycle: proposed->accepted with index status sync"
             - "knowledge-consistency: metadata index, trace in frontmatter"
             - "dual-agent-production-policy: Codex (implementation/testing/debugging) + Cursor (code_review/refactor/architecture_review), capability-based routing, truthful auth status"
+      - manifest: "m1.0-a-review-active"
+        date: "2026-08-08"
+        status: "active"
+        components:
+          - {name: chatgpt-production-bridge, version: "1.1.0", tag: "v1.1.0"}
+          - {name: chatgpt-strategy-gateway, version: "1.3.1", tag: "v1.3.1"}
+          - {name: obsidian-knowledge-gateway, version: "1.2.0", tag: "v1.2.0"}
+          - {name: aiwp-pipeline, version: "1.4.0", tag: "v1.4.0"}
+          - {name: coding-agent-gateway, version: "1.2.0", tag: "v1.2.0"}
+          - {name: github-development-gateway, version: "1.2.0", tag: "v1.2.0"}
+        records: {capability: "review-engine: S7 review + S7b rework, quality gate, mock review agent (ADR-009 proposed)", adr_status: "9 ADRs (1-8 accepted, 9 proposed)"}
